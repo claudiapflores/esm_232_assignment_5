@@ -1,0 +1,36 @@
+---
+title: "ds_esm232_hw5"
+author: "David Segan"
+date: "4/28/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(purrr)
+library(deSolve)
+```
+
+
+```{r}
+source("../esm_232_assignment_5/ds_popgrow_function.R")
+
+# set variables
+r = 0.05
+K = 20
+initial_pop = 1
+years = seq(from=1, to=50, by=1)
+
+# run the solver
+Ptime = ode(y=initial_pop, time=years, func=pop_growth,parms=c(r, K))
+head(Ptime)
+colnames(Ptime)=c("year","P")
+
+# extract just the data frame for plotting
+ggplot(as.data.frame(Ptime), aes(year,P))+geom_point()+labs(y="Population", "years")
+
+```
+
+
