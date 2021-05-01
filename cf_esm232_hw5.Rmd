@@ -22,7 +22,7 @@ source("./R/cf_popgrow_function.R")
 ```
 
 ```{r}
-## Set up conditions 
+## Set up conditions for ODE Solver
 
 # Set initial population to 1
 P_o = 1
