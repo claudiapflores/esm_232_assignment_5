@@ -1,0 +1,65 @@
+---
+title: "Homework 5"
+author: "Claudia Flores"
+date: "4/30/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+## Read in packages
+library(tidyverse)
+library(purrr)
+library(deSolve)
+```
+
+```{r}
+## Source in the function
+source("./R/cf_popgrow_function.R")
+```
+
+```{r}
+## Set up conditions 
+
+# Set initial population to 1
+P_o = 1
+
+# Create a vectors for years 1 to 50
+years = seq(from = 1, 
+            to = 50, 
+            by = 1
+            )
+
+# Create parameters with r = 0.05 and K = 20
+parms = list(r = 0.05, 
+             K = 20
+             )
+```
+
+```{r}
+## ODE Solver
+
+# Run ODE function
+pop = ode(y = P_o, # y is initial populaiton
+          times = years, # times is years (1 to 50)
+          func = dpopgrow_withk, # func is function name
+          parms = parms # parms is the rate of change and carrying capacity 
+          )
+
+# Create column names for pop data frame
+colnames(pop) = c("year","P")
+```
+
+```{r}
+## Graph ODE Solver results
+
+# plot
+ggplot(as.data.frame(pop), 
+       aes(year,P)) + 
+       geom_point() + 
+       labs(y ="Population", "Year")
+```
+
